@@ -1,6 +1,6 @@
 CC := gcc
 CFLAGS := -std=c23 -Wall -Wextra -Wpedantic -MMD -MP
-LDFLAGS := -pthread -lpthread -ldiscord -lcurl
+LDFLAGS :=
 
 SRC_DIR := src
 BUILD_DIR := build
