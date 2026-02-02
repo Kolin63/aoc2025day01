@@ -14,14 +14,16 @@ Dial create_dial() {
 }
 
 int turn_right(Dial* dial, int amt) {
+  const int start = dial->pos;
   dial->pos = (dial->pos + amt) % 100;
-  dial->zeros += (dial->pos == 0) * 1;
+  dial->zeros += amt / 100 + ((dial->pos < start && start != 0) || (dial->pos == 0 && amt != 100)) * 1;
   return dial->pos;
 }
 
 int turn_left(Dial* dial, int amt) {
+  const int start = dial->pos;
   dial->pos = (dial->pos + (amt / 100 + 1) * 100 - amt) % 100;
-  dial->zeros += (dial->pos == 0) * 1;
+  dial->zeros += amt / 100 + ((dial->pos > start && start != 0) || (dial->pos == 0 && amt != 100)) * 1;
   return dial->pos;
 }
 
@@ -42,10 +44,10 @@ int main() {
     int dir = (line[0] == 'R') * RIGHT;
     if (dir == LEFT) {
       turn_left(&dial, amt);
-      printf("left %i, at %i\n", amt, dial.pos);
+      printf("left %i, at %i, with %i zeros\n", amt, dial.pos, dial.zeros);
     } else if (dir == RIGHT) {
       turn_right(&dial, amt);
-      printf("right %i, at %i\n", amt, dial.pos);
+      printf("right %i, at %i, with %i zeros\n", amt, dial.pos, dial.zeros);
     }
   }
 
